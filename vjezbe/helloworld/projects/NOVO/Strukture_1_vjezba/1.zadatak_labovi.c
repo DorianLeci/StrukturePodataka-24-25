@@ -37,13 +37,6 @@ int main() {
 
     fclose(file);
 
-
-
-
-
-
-
-
 	return 0;
 }
 int count_rows(char *fileName) {
@@ -65,11 +58,6 @@ int count_rows(char *fileName) {
 	while(fgets(buffer, BUFFER_SIZE, file)!=NULL) {
 			brojac++;
 	}
-
-
-  
-
-
 
 	fclose(file);
 
