@@ -1,0 +1,9 @@
+IME    PREZIME    OCJENE
+Dorian Leci       1 2 3 4 5
+Vesna  Leci       5 4 3 2 1
+Nikola Filipovic       4 4 3 1 1
+Luka   Jerkovic   1 1 1 1 1
+Ante   Kundid     2 2 2 2 2
+Luka   Buzuk     5 4 4 4 5
+Nikola Filipovic  5 5 5 5 5
+

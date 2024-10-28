@@ -1,0 +1,4 @@
+IME     MB        OCJENE
+Vesna  1404      1 2 3 4 5
+Dorian   1405      5 5 5 5 5
+Vesna   1406      1 1 2 2 3
