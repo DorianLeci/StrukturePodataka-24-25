@@ -1,4 +1,0 @@
-IME   PREZIME    BODOVI
-Dorian Leci       50
-Ante   Kundid     45
-
