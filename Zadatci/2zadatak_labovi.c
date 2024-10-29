@@ -23,11 +23,13 @@ position find_by_lname(position first, char* lname);
 
 int FileOpen(position head,char *filename);
 
-int Odabir_Prepend(position head,char *fname,char *lname,int birth_year,int br_osoba,char *filename);
-int Odabir_Apend(position head,char *fname,char *lname,int birth_year,int br_osoba,char *filename);
+int Odabir_Prepend(position head,int br_osoba,char *filename);
+int Odabir_Apend(position head,int br_osoba,char *filename);
 
 int ObrisiEl(position head,position ref);
 position FindPrev(position head,position ref);
+
+int BrisiSve(position head);
 
 int main() {
     int rezultat_funkcije,i,vel_liste;
@@ -95,7 +97,8 @@ int main() {
 
 
 
-
+    BrisiSve(head);
+    print_list(head->next);
     
     free(head);
 
@@ -106,8 +109,6 @@ int main() {
 
 int FileOpen(position head,char *filename){ //ucitavanje podataka iz filea i pozivanje ostalih funkcija
     int broj_osoba=0;
-    char fname[50],lname[50];
-    int birth_year;
     int odabir;
     char buffer[BUFFER_SIZE];
     FILE *fp=fopen(filename,"r");
@@ -125,11 +126,11 @@ int FileOpen(position head,char *filename){ //ucitavanje podataka iz filea i poz
     scanf("%d",&odabir);
 
     if(odabir==0){
-        Odabir_Prepend(head,fname,lname,birth_year,broj_osoba,filename);
+        Odabir_Prepend(head,broj_osoba,filename);
     }
 
     else if(odabir==1){
-        Odabir_Apend(head,fname,lname,birth_year,broj_osoba,filename);
+        Odabir_Apend(head,broj_osoba,filename);
     }
 
     else{
@@ -182,7 +183,9 @@ return 0;
 
 int print_list(position first) {
 position temp = first;
-
+if(temp==NULL){
+    printf("\nLista nema elemenata\n");
+}
 while (temp != NULL) {
 printf("%s %s %d\n", temp->fname, temp->lname, temp->birth_year);
 temp = temp->next;
@@ -230,8 +233,10 @@ return NULL;
 return temp;
 }
 
-int Odabir_Prepend(position head,char *fname,char *lname,int birth_year,int br_osoba,char *filename){
+int Odabir_Prepend(position head,int br_osoba,char *filename){
     int i,j,vel_liste;
+    char fname[50],lname[50];
+    int birth_year;
     FILE *fp=fopen(filename,"r");
 
     if(!fp){
@@ -261,8 +266,10 @@ int Odabir_Prepend(position head,char *fname,char *lname,int birth_year,int br_o
     return 0;
 }
 
-int Odabir_Apend(position head,char *fname,char *lname,int birth_year,int br_osoba,char *filename){
+int Odabir_Apend(position head,int br_osoba,char *filename){
     int i,j,vel_liste;
+    char fname[50],lname[50];
+    int birth_year;
     FILE *fp=fopen(filename,"r");
 
     if(!fp){
@@ -320,6 +327,21 @@ position FindPrev(position head,position ref){
     }
 
     return temp;
+}
+
+int BrisiSve(position head){
+    position temp=head;
+    position zadnji;
+    position prethodni;
+    while(temp->next!=NULL){
+        zadnji=find_last(temp->next);
+        prethodni=FindPrev(head,zadnji);
+
+        prethodni->next=zadnji->next;
+        free(zadnji);
+    }
+
+    return 0;
 }
 
 
