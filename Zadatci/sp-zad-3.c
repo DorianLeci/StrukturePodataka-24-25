@@ -292,7 +292,7 @@ if(fp==NULL) return ERROR_OPENING_FILE;
 int ispisi_iz_datoteke(pozicija head,char *filename) {
 
     char ime[M], prez[M];
-    int god,rez_ime,rez_prez,br_osoba=0,i;
+    int god,rez_sscanf,br_osoba=0,i;
     char temp_ime[M],temp_prez[M];
 
     char buffer[BUFFER_SIZE];
@@ -314,19 +314,22 @@ int ispisi_iz_datoteke(pozicija head,char *filename) {
 
     for(i=0;i<br_osoba;i++){
     fscanf(fp,"%s %s %d",temp_ime,temp_prez,&god);
-    rez_ime=sscanf(temp_ime,"%s",ime);
-    rez_prez=sscanf(temp_prez,"%s",prez);
 
-    if(rez_ime==1 && rez_prez==1){
+    strcat(temp_ime," ");
+    strcat(temp_ime,temp_prez);
+
+    rez_sscanf=sscanf(temp_ime,"%s %s",ime,prez);
+
+    if(rez_sscanf==2){
         dodaj_na_kraj(head, ime, prez, god);
     }
  
 
-
 } 
 
         
-    
+    fclose(fp);
+    return 0;   
    
     
 }
