@@ -3,6 +3,7 @@
 #include <string.h>
 #include<stdbool.h>
 #define ERROR_OPENING_FILE -1
+#define BUFFER_SIZE 1024
 
 #define M 100
 
@@ -23,8 +24,9 @@ pozicija find_previous(pozicija, char*);
 void dodaj_izmejdu(pozicija, char*, char*, int, pozicija);
 void dodaj(pozicija, char*, char*, int, char*);
 void sort(pozicija);
-int upisi_u_datoteku(pozicija);
-int ispisi_iz_datoteke(pozicija);
+int upisi_u_datoteku(pozicija,char *);
+int ispisi_iz_datoteke(pozicija,char *);
+void IzbrisiSve(pozicija head);
 
 int main() {
 
@@ -33,11 +35,13 @@ int main() {
     int odabir,br_osoba,j;
 
     char i[M], p[M], traz[M]; int g;
+
     printf("\nOdaberi 0(unos na kraj) ili 1(unos na pocetak)\n");
     scanf("%d",&odabir);
     printf("\nOdaberi br osoba koje unosis\n");
     scanf("%d",&br_osoba);
-
+    
+    //////////////
     if(odabir==0){
         for(j=0;j<br_osoba;j++){
             unos_varijabli(i, p, &g);
@@ -60,19 +64,24 @@ int main() {
 
     unos_varijabli(i,p,&g);
     printf("Unesite prezime reference: "); scanf("%s", traz);
-
     dodaj(head, i, p, g, traz);
     print_liste(head);
 
-    ispisi_iz_datoteke(head);
-    print_liste(head);
 
+    ispisi_iz_datoteke(head,"lista_iscitavanje.txt");
+    print_liste(head);
 
     sort(head);
-    printf("\nIspis nakon sortiranja\n");
     print_liste(head);
 
-    upisi_u_datoteku(head);
+    upisi_u_datoteku(head,"lista.txt");
+
+    IzbrisiSve(head);
+    print_liste(head);
+
+    free(head);
+
+
    
     return 0;
 }
@@ -92,7 +101,10 @@ void print_liste(pozicija head) {
     printf("\nIme\tPrezime\tGod:\n");
 
     pozicija curr = head->next;
-
+    if(curr==NULL){
+        printf("\nLista nema elemenata\n");
+        return;
+    }
     while (curr != NULL) {
         printf("%s\t%s\t%d\n", curr->ime, curr->prezime, curr->god);
         curr = curr->next;
@@ -256,12 +268,12 @@ void sort(pozicija head) {
 
 
 }
-int upisi_u_datoteku(pozicija head) {
+int upisi_u_datoteku(pozicija head,char *filename) {
 
     pozicija curr = head->next;
 
     FILE* fp = NULL;
-    fp = fopen("lista_upis.txt", "w");
+    fp = fopen(filename, "w");
 
 if(fp==NULL) return ERROR_OPENING_FILE;
 
@@ -277,24 +289,39 @@ if(fp==NULL) return ERROR_OPENING_FILE;
     return 0;
 }
 
-int ispisi_iz_datoteke(pozicija head) {
+int ispisi_iz_datoteke(pozicija head,char *filename) {
 
-    pozicija curr = head->next;
     char ime[M], prez[M];
-    int god;
+    int god,rez_ime,rez_prez,br_osoba=0,i;
+    char temp_ime[M],temp_prez[M];
+
+    char buffer[BUFFER_SIZE];
     FILE* fp = NULL;
 
-    fp = fopen("lista_iscitavanje.txt", "r");
+    fp = fopen(filename, "r");
     if (fp == NULL) {
         return ERROR_OPENING_FILE;
     }
 
-    while (getc(fp) != '\n') ;
+    while(fgets(buffer,BUFFER_SIZE,fp)){
+        br_osoba++;
+    }
+    br_osoba--;
 
-    //prepravi
-    while(! feof(fp) ){
- fscanf(fp,"%s%s%d", ime,prez, & god);
-dodaj_na_kraj(head, ime, prez, god);
+
+    rewind(fp);
+    while(fgetc(fp)!='\n');
+
+    for(i=0;i<br_osoba;i++){
+    fscanf(fp,"%s %s %d",temp_ime,temp_prez,&god);
+    rez_ime=sscanf(temp_ime,"%s",ime);
+    rez_prez=sscanf(temp_prez,"%s",prez);
+
+    if(rez_ime==1 && rez_prez==1){
+        dodaj_na_kraj(head, ime, prez, god);
+    }
+ 
+
 
 } 
 
@@ -302,4 +329,13 @@ dodaj_na_kraj(head, ime, prez, god);
     
    
     
+}
+
+void IzbrisiSve(pozicija head){
+    pozicija temp;
+    while(head->next!=NULL){
+        temp=head->next;
+        head->next=head->next->next;
+        free(temp);
+    }
 }
