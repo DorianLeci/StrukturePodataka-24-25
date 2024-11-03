@@ -1,4 +1,0 @@
-Ime	Prez	God
-Frano	Kundid	11
-Ica	Kilic	22
-Ivo	Mijic	66
