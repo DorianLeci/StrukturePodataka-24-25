@@ -1,5 +1,0 @@
-Ime:	Prezime:	God:
-Ica	Kilic	22
-Frano	Kundid	11
-Dorian	Leci	2003
-Ivo	Mijic	66
