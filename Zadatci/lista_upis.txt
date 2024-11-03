@@ -1,0 +1,6 @@
+Ime:	Prezime:	God:
+Luka	Jera	2005
+Ica	Kilic	22
+Frano	Kundid	11
+Dorian	Leci	2004
+Ivo	Mijic	66
