@@ -15,91 +15,56 @@ position next;
 }person;
 
 position create_person(char* fname, char* lname, int birth_year);
-int prepend_list(position head, char* fname, char* lname, int birth_year);
+int prepend_list(position head,int br_osoba);
 int print_list(position first);
 position find_last(position head);
-int append_list(position head, char* fname, char* lname, int birth_year);
+int append_list(position head,int br_osoba);
 position find_by_lname(position first, char* lname);
-
-int FileOpen(position head,char *filename);
-
-int Odabir_Prepend(position head,int br_osoba,char *filename);
-int Odabir_Apend(position head,int br_osoba,char *filename);
-
 int ObrisiEl(position head,position ref);
 position FindPrev(position head,position ref);
-
 int BrisiSve(position head);
 
 int main() {
-    int rezultat_funkcije,i,vel_liste;
-    char lname[50];
-    position prezime,ref;
-    position head=(position)malloc(sizeof(person));
+    int odabir,br_osoba;
+    position ref,head;
+    char prezime[50];
+    head=(position)malloc(sizeof(person));
 
-    if(head==NULL){
+    if(!head){
         printf("\nNeuspješno alociranje memorije head-a\n");
         return -1;
     }
     head->next=NULL;
 
-    rezultat_funkcije=FileOpen(head,"podatci.txt");
+    printf("\nUnesi zelis li na pocetak(0) ili kraj(1) liste");
+    scanf("%d",&odabir);
+    printf("\nUnesi broj osoba koje ces unijeti\n");
+    scanf("%d",&br_osoba);
 
-    if(rezultat_funkcije==ERROR_OPENING_FILE){
-        printf("\nNeuspješna provedba funkcije\n");
-    }
-
-    printf("\nIspis vezane liste\n");
-    print_list(head->next);
-
-    printf("\nUnesi prezime koje zelis pretražiti\n");
-    getchar();
-    fgets(lname,50,stdin);
-    vel_liste=strlen(lname);
-
-    lname[vel_liste-1]='\0';
-
-    prezime=find_by_lname(head->next,lname);
-
-    if(prezime){
-        printf("\nPronađeno je prezime: %s\n",prezime->lname);
-    }
-    else if(!prezime){
-        printf("\nNije pronađeno prezime\n");
-    }
-
-    //////////////////////
-
-    printf("\nOdaberi element koji želiš obrisati.Unesi prezime\n");
-
-    for(i=0;i<vel_liste;i++){
-        lname[i]='\0'; //resetiranje liste
-    }
-
-    fgets(lname,50,stdin);
-    vel_liste=strlen(lname);
-
-    lname[vel_liste-1]='\0';
-
-    ref=find_by_lname(head->next,lname);
-
-    if(ref){
-        printf("\nUspješno pronađeno\n");
-        printf("Ref: %s\n",ref->lname);
-        ObrisiEl(head,ref);
-        printf("\nLista nakon brisanja elementa\n");
+    if(odabir==0){
+        append_list(head,br_osoba);
         print_list(head->next);
     }
+    else if(odabir==1){
+        prepend_list(head,br_osoba);
+        print_list(head->next);
+    }
+    else{
+        printf("\nKrivi unos\n");
+    }
 
-   else{
-    printf("\nNije pronađeno prezime.Brisanje elementa nije moguće\n");
-   }
-
+    printf("\nUnesi prezime koje zelis pretraziti i obrisati\n");
+    scanf("%s",prezime);
+    ref=find_by_lname(head->next,prezime);
+    if(ref){
+        ObrisiEl(head,ref);
+        printf("\nNakon brisanja elementa\n");
+        print_list(head->next);
+    }
 
 
     BrisiSve(head);
     print_list(head->next);
-    
     free(head);
 
     return 0;
@@ -107,44 +72,6 @@ int main() {
 
 }
 
-int FileOpen(position head,char *filename){ //ucitavanje podataka iz filea i pozivanje ostalih funkcija
-    int broj_osoba=0;
-    int odabir;
-    char buffer[BUFFER_SIZE];
-    FILE *fp=fopen(filename,"r");
-
-    if(!fp){
-        printf("\nPogreška pri otvaranju datoteke\n");
-        return ERROR_OPENING_FILE;
-    }
-    	while(fgets(buffer, BUFFER_SIZE, fp)!=NULL) {
-			broj_osoba++;
-	}
-    printf("\nBroj osoba: %d\n",broj_osoba);
-
-    printf("\nOdaberi hoćeš li dodavati elemente na početak(0) ili kraj(1) liste\n");
-    scanf("%d",&odabir);
-
-    if(odabir==0){
-        Odabir_Prepend(head,broj_osoba,filename);
-    }
-
-    else if(odabir==1){
-        Odabir_Apend(head,broj_osoba,filename);
-    }
-
-    else{
-        printf("\nNetočan unos\n");
-        return -1;
-    }
-
-    fclose(fp);
-
-    return 0;
-
-
-
-}
 
 position create_person(char* fname, char* lname,int birth_year) {
 
@@ -164,20 +91,28 @@ return new_person;
 
 }
 
-int prepend_list(position head, char* fname, char* lname, int birth_year) {
+int prepend_list(position head,int br_osoba) {
 position new_person = NULL;
 position temp;
+int i,birth_year;
+char fname[50],lname[50];
 
-new_person = create_person(fname, lname, birth_year);
+for(i=0;i<br_osoba;i++){
+    printf("\nUpiši ime,prezime i godinu rođenja\n");
+    scanf("%s %s %d",fname,lname,&birth_year);
+    new_person = create_person(fname, lname, birth_year);
 
-if (!new_person) {
-return -1;
+    if (!new_person) {
+    return -1;
+    }
+    temp = head->next;
+    new_person->next = temp;
+    head->next = new_person;
+
+
 }
-temp = head->next;
-new_person->next = temp;
-head->next = new_person;
 
-return 0;
+    return 0;
 
 }
 
@@ -203,19 +138,27 @@ temp = temp->next;
 return temp;
 }
 
-int append_list(position head,char *fname,char *lname,int birth_year) {
+int append_list(position head,int br_osoba) {
 position new_person = NULL;
 position last = NULL;
+int i,birth_year;
+char fname[50],lname[50];
 
-new_person = create_person(fname, lname, birth_year);
 
-if (!new_person) {
-return -1;
-}
+for(i=0;i<br_osoba;i++){
+    printf("\nUpiši ime,prezime i godinu rođenja\n");
+    scanf("%s %s %d",fname,lname,&birth_year);
+    new_person = create_person(fname, lname, birth_year);
+    if (!new_person) {
+        return -1;
+        }
 
-last = find_last(head);
-last->next = new_person;
-new_person->next = NULL;
+    last = find_last(head);
+    last->next = new_person;
+    new_person->next = NULL; 
+
+    }
+
 
 return 0;
 
@@ -231,73 +174,6 @@ if (temp == NULL) {
 return NULL;
 }
 return temp;
-}
-
-int Odabir_Prepend(position head,int br_osoba,char *filename){
-    int i,j,vel_liste;
-    char fname[50],lname[50];
-    int birth_year;
-    FILE *fp=fopen(filename,"r");
-
-    if(!fp){
-        printf("\nPogreška u otvaranju datoteke\n");
-        return ERROR_OPENING_FILE;
-    }
-
-            for(i=0;i<br_osoba;i++){
-            fscanf(fp,"%s %s %d",fname,lname,&birth_year);
-
-            prepend_list(head,fname,lname,birth_year); //ponovno stvaranje člana u vezanoj listi
-
-            //ciscenje listi
-            vel_liste=strlen(fname);
-            for(j=0;j<vel_liste;j++){
-                fname[j]='\0';
-            }
-
-            vel_liste=strlen(lname);
-            for(j=0;j<vel_liste;j++){
-                lname[j]='\0';
-            }
-
-        }
-    fclose(fp);
-
-    return 0;
-}
-
-int Odabir_Apend(position head,int br_osoba,char *filename){
-    int i,j,vel_liste;
-    char fname[50],lname[50];
-    int birth_year;
-    FILE *fp=fopen(filename,"r");
-
-    if(!fp){
-        printf("\nPogreška u otvaranju datoteke\n");
-        return ERROR_OPENING_FILE;
-    }
-
-            for(i=0;i<br_osoba;i++){
-            fscanf(fp,"%s %s %d",fname,lname,&birth_year);
-
-            append_list(head,fname,lname,birth_year); //ponovno stvaranje člana u vezanoj listi
-
-            //ciscenje listi
-            vel_liste=strlen(fname);
-            for(j=0;j<vel_liste;j++){
-                fname[j]='\0';
-            }
-
-            vel_liste=strlen(lname);
-            for(j=0;j<vel_liste;j++){
-                lname[j]='\0';
-            }
-
-        }
-
-    fclose(fp);
-
-    return 0;
 }
 
 int ObrisiEl(position head,position ref){
@@ -343,6 +219,10 @@ int BrisiSve(position head){
 
     return 0;
 }
+
+
+
+
 
 
 
