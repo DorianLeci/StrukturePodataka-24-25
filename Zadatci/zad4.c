@@ -112,7 +112,7 @@ void iscitaj_i_unesi(pozicija head,char* ime_filea){
 
     fgets(buffer,BUFFER_SIZE,data);
 
-    while (sscanf(buffer+offset,"%d %d %n,",&coef,&exp,&numBytes)==2){
+    while (sscanf(buffer+offset,"%d %d,%n",&coef,&exp,&numBytes)==2){
         sort_unos(head,coef,exp);
         offset+=numBytes;
        
