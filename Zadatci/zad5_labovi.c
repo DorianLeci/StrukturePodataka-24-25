@@ -17,7 +17,6 @@ void Ispis(position p);
 position PronadiPrethodni(position head,position ref);
 void PushNaPocetak(position head,char *filename);
 void PopOdPocetka(position head);
-void BrisanjeOdPocetka(position head);
 
 int main(){
     position head=(position)malloc(sizeof(lista));
@@ -180,12 +179,3 @@ void PopOdPocetka(position head){
     }
 }
 
-void BrisanjeOdPocetka(position head){
-    position temp=head,brisi;
-    while(temp->next){
-        brisi=temp->next;
-        temp->next=temp->next->next;
-
-        free(brisi);
-    }
-}
