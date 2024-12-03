@@ -27,7 +27,7 @@ int main(){
     //implementacija push na početak i brisanje od pocetka (LIFO)
     PushNaPocetak(head,"postfix.txt");
 
-    BrisanjeOdPocetka(head);
+    PopOdPocetka(head);
     free(head);
 
     return 0;
