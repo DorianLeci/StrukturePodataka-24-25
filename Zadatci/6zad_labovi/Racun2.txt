@@ -1,0 +1,10 @@
+31-1-2023
+Krastavac 1 6
+Med 1 30
+Vino 2 20
+Vino 2 20
+Mama 3 10
+Vino 2 20
+Tata 26 1
+Med 1 30
+Mama 10 10
