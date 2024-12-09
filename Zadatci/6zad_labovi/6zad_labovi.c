@@ -432,16 +432,6 @@ void IzbrisiSve(RacunPosition head_glavni){
     }
 }
 
-double IzracunajBudzet(ArticlePosition artikli){
-    ArticlePosition temp=artikli;
-    double sum=0;
-    while(temp){
-        sum+=(temp->quant*temp->price);
-        temp=temp->next_article;
-    }
-    return sum;
-}
-
 
     
     
