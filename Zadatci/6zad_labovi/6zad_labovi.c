@@ -64,7 +64,6 @@ int main() {
     printf("\n_________\n");
 
     Pretrazi(head_glavni,"2-2-2023","15-10-2027");
-
     IzbrisiSve(head_glavni);
     Ispis(head_glavni->next_racun);
     free(head_glavni);
@@ -153,7 +152,7 @@ void Ispis(RacunPosition p){
         return;
     }
     while(p){
-        printf("Datum: %d %d %d\n",p->dan,p->mj,p->god);
+        printf("\nDatum: %d %d %d\n",p->dan,p->mj,p->god);
 
         temp=p->head_article->next_article;
         if(!temp){
@@ -162,16 +161,6 @@ void Ispis(RacunPosition p){
         while(temp){
             printf("\n%s %d %lf",temp->name,temp->quant,temp->price);
             temp=temp->next_article;
-        }
-        printf("\n_________\n");
-        KupacPosition temp_kupac=p->head_kupac->next_kupac;
-        if(!temp_kupac){
-            printf("\nPrazna lista kupaca\n");
-        }
-        while(temp_kupac){
-            printf("\n%s %lf",temp_kupac->name,temp_kupac->budget);
-            temp_kupac=temp_kupac->next_kupac;
-            printf("\n----\n");
         }
         p=p->next_racun;
     }
