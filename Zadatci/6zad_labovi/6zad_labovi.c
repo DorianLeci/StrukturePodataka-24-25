@@ -46,7 +46,6 @@ int SortiraniUnos(RacunPosition head_glavni,RacunPosition uneseni);
 void UcitajDatum(RacunPosition p,char *filename);
 void IspisSamoGlavneListe(RacunPosition p);
 void UnosSortArtikl(RacunPosition racun,ArticlePosition novi_artikl);
-void SortiraniJednako(RacunPosition uneseni,RacunPosition curr);
 void Pretrazi(RacunPosition uneseni,char*,char*);
 void IzbrisiSve(RacunPosition head_glavni);
 
