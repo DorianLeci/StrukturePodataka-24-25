@@ -183,18 +183,6 @@ void UcitajDatum(RacunPosition p,char *filename){
     fclose(fp);
 }
 
-RacunPosition PronadiPrethodni(RacunPosition head_glavni,RacunPosition ref){
-    RacunPosition temp=head_glavni;
-    while(temp->next_racun && temp->next_racun!=ref){
-        temp=temp->next_racun;
-    }
-    if(!temp->next_racun){
-        return NULL;
-    }
-
-    return temp;
-}
-
 void IspisSamoGlavneListe(RacunPosition p){
     if(!p){
         printf("\nGlavna lista nema elemenata\n");
@@ -213,16 +201,6 @@ RacunPosition PronadiZadnji(RacunPosition head_glavni){
         temp=temp->next_racun;
     }
     return temp;
-}
-
-RacunPosition Pronadi_U_Rasponu(RacunPosition ref,int godina){
-    RacunPosition curr;
-    while(ref && ref->god==godina){
-        curr=ref;
-        ref=ref->next_racun;
-    }
-
-    return curr;
 }
 
 void UnosSortArtikl(RacunPosition racun,ArticlePosition novi_artikl){
@@ -252,7 +230,6 @@ void UnosSortArtikl(RacunPosition racun,ArticlePosition novi_artikl){
                 prev2->next_article=novi_artikl;
 
             }
-            return;
         }
 
         if(strcmp(novi_artikl->name,curr->name)<0)break;
@@ -278,9 +255,7 @@ int SortiraniUnos(RacunPosition head_glavni,RacunPosition uneseni){
                 if(uneseni->dan<curr->dan)break;
                 if(uneseni->dan==curr->dan){
                     //isti datum
-                    SortiraniJednako(uneseni,curr);
-
-                    return 0;
+			break;
                 }
             }
         }
@@ -291,27 +266,6 @@ int SortiraniUnos(RacunPosition head_glavni,RacunPosition uneseni){
 
     uneseni->next_racun=curr;
     prev->next_racun=uneseni;
-}
-
-void SortiraniJednako(RacunPosition uneseni,RacunPosition curr){
-    ArticlePosition temp = uneseni->head_article->next_article; //prvi element u article listi od racuna uneseni
-    ArticlePosition new;
-
-    while (temp) {
-        new=(ArticlePosition)malloc(sizeof(article));
-        if(!new)return; //element liste articl
-
-        strcpy(new->name,temp->name);
-        new->quant=temp->quant;
-        new->price=temp->price;
-
-        new->next_article=NULL;
-
-        UnosSortArtikl(curr,new);
-
-        temp=temp->next_article;
-
-    }
 }
 
 void Pretrazi(RacunPosition head_glavni,char *datum1,char *datum2){
