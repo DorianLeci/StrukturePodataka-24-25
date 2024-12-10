@@ -6,15 +6,6 @@
 #define MAX_LEN 255
 #define ERROR_OPENING_FILE -1
 
-struct _kupac;
-typedef struct _kupac *KupacPosition;
-
-typedef struct _kupac{
-    char name[MAX_LEN];
-    double budget;
-    KupacPosition next_kupac;
-}kupac;
-
 struct _article;
 typedef struct _article* ArticlePosition;
 
@@ -33,7 +24,6 @@ typedef struct _racun {
 
 	RacunPosition next_racun;
 	ArticlePosition head_article;
-    KupacPosition head_kupac;
 
 }racun;
 
