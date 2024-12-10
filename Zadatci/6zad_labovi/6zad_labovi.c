@@ -209,8 +209,9 @@ void UnosSortArtikl(RacunPosition racun,ArticlePosition novi_artikl){
                 }
                 novi_artikl->next_article=curr2;
                 prev2->next_article=novi_artikl;
-return;
+
             }
+		return;
         }
 
         if(strcmp(novi_artikl->name,curr->name)<0)break;
