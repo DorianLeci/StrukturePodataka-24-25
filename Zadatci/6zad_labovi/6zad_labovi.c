@@ -193,14 +193,6 @@ void IspisSamoGlavneListe(RacunPosition p){
     }
 }
 
-RacunPosition PronadiZadnji(RacunPosition head_glavni){
-    RacunPosition temp=head_glavni->next_racun;
-
-    while(temp){
-        temp=temp->next_racun;
-    }
-    return temp;
-}
 
 void UnosSortArtikl(RacunPosition racun,ArticlePosition novi_artikl){
     ArticlePosition prev=racun->head_article;
