@@ -288,6 +288,10 @@ void ispis_datoteka(Dir trenutni){
 }
 
 int Pretrazi_Foldere(Dir trenutni,char *ref){
+    if(strcmp(trenutni.ime,ref)==0){
+        printf("\nNaziv ne moze biti isti kao i od parent foldera\n");
+        return 0;
+    }
     for(int i=2;i<trenutni.vel_liste;i++){
         if(strcmp(trenutni.lista[i].ime,ref)==0){
             printf("\nIsti folder vec postoji.Ponovno upisi.\n");
