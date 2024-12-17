@@ -41,6 +41,9 @@ void komande(StackPosition stack_head,Dir *trenutni,char *root_ime);
 void datoteke_unutar_foldera(Dir *trenutni,char *ime,char *tip);
 void ispis_datoteka(Dir trenutni);
 
+int Pretrazi_Foldere(Dir trenutni,char *ref);
+int Pretrazi_Datoteke(Dir trenutni,char *ref_ime,char *ref_tip);
+
 int main(){
     Dir root;
 
@@ -196,7 +199,7 @@ void komande(StackPosition stack_head,Dir *trenutni,char *root_ime){
                 printf("\nUnesi ime foldera\n");
                 scanf("%s",ime_temp);
                 getchar();
-            }while(strcmp(ime_temp,"..")==0 || strcmp(ime_temp,"..")==0);
+            }while(strcmp(ime_temp,"..")==0 || strcmp(ime_temp,".")==0 || Pretrazi_Foldere(*trenutni,ime_temp)==0);
 
 
             md(trenutni,ime_temp); //funkcija za pravljenje liste
@@ -225,7 +228,6 @@ void komande(StackPosition stack_head,Dir *trenutni,char *root_ime){
 
         else if(strcmp(odabir,"cd..")==0){
             if(strcmp(trenutni->ime,root_ime)!=0){
-                ispis_stacka(stack_head->next);
                 Dir *pomocni=pop(stack_head);
                 trenutni=pomocni;
                 printf("\nVratili smo se u: %s\n",trenutni->ime);
@@ -246,12 +248,15 @@ void komande(StackPosition stack_head,Dir *trenutni,char *root_ime){
             printf("\n------\n");
         }
         else if(strcmp(odabir,"touch")==0){
-            printf("\nUnesi ime datoteke\n");
-            scanf("%s",ime_dat);
-            getchar();
-            printf("\nUpiši tip datoteke\n");
-            scanf("%s",tip_dat);
-            getchar();
+            do{
+                printf("\nUnesi ime datoteke\n");
+                scanf("%s",ime_dat);
+                getchar();
+                printf("\nUpiši tip datoteke\n");
+                scanf("%s",tip_dat);
+                getchar();
+            }while(Pretrazi_Datoteke(*trenutni,ime_dat,tip_dat)==0);
+
             datoteke_unutar_foldera(trenutni,ime_dat,tip_dat);
         }
         else if(strcmp(odabir,"exit")==0){
@@ -280,6 +285,26 @@ void ispis_datoteka(Dir trenutni){
         printf("%s.%s",trenutni.lista_datoteka[i].ime_datoteke,trenutni.lista_datoteka[i].tip_datoteke);
         printf("\n");
     }
+}
+
+int Pretrazi_Foldere(Dir trenutni,char *ref){
+    for(int i=2;i<trenutni.vel_liste;i++){
+        if(strcmp(trenutni.lista[i].ime,ref)==0){
+            printf("\nIsti folder vec postoji.Ponovno upisi.\n");
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int Pretrazi_Datoteke(Dir trenutni,char *ref_ime,char *ref_tip){
+    for(int i=0;i<trenutni.vel_liste_datoteka;i++){
+        if(strcmp(trenutni.lista_datoteka[i].ime_datoteke,ref_ime)==0 && strcmp(trenutni.lista_datoteka[i].tip_datoteke,ref_tip)==0){
+            printf("\nIsta datoteka vec postoji.Ponovno upisi.\n");
+            return 0;
+        }
+    }
+    return 1;
 }
 
 
