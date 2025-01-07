@@ -215,9 +215,9 @@ pos Prethodni(pos head, pos ref) {
         temp = temp->next;
     }
     if (!temp->next) {
-        return NULL;  // If we reached the end of the list without finding 'ref'
+        return NULL;
     }
-    return temp;  // Return the node before 'ref'
+    return temp; 
 }
 
 void PrintInorder(Node root){
