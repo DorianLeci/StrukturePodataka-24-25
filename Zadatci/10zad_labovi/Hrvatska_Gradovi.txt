@@ -1,0 +1,17 @@
+Naziv_Virovitica 33000_stanovnika
+Naziv_Zupanja 33000_stanovnika
+Naziv_Makarska 25000_stanovnika
+Naziv_Zagreb 700000_stanovnika
+Naziv_Varazdin 47000_stanovnika
+Naziv_Ber 47000_stanovnika
+Naziv_Eno 25000_stanovnika
+Naziv_Ankona 47000_stanovnika
+Naziv_Rijeka 125000_stanovnika
+Naziv_Zara 47000_stanovnika
+Naziv_Bobo 35000_stanovnika
+Naziv_Xo 25000_stanovnika
+Naziv_Split 125000_stanovnika
+Naziv_Marenda 47000_stanovnika
+Naziv_Abaraba 125000_stanovnika
+Naziv_Varazdin 47000_stanovnika
+

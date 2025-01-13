@@ -1,0 +1,9 @@
+Naziv_Baba 25_stanovnika
+Naziv_Celje 12_stanovnika
+Naziv_Ljubljana 51000_stanovnika
+Naziv_Celje 10_stanovnika
+Naziv_Ljubuski 52000_stanovnika
+Naziv_Babo 33_stanovnika
+Naziv_Ljubljana 51001_stanovnika
+
+

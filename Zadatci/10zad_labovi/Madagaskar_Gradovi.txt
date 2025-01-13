@@ -1,0 +1,9 @@
+Naziv_A 25_stanovnika
+Naziv_C 25000_stanovnika
+Naziv_G 700000_stanovnika
+Naziv_Z 125000_stanovnika
+Naziv_B 47000_stanovnika
+Naziv_E 162000_stanovnika
+
+
+
