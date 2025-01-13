@@ -43,7 +43,6 @@ pos TraziPoListi(pos head,char *drzava);
 void InOrderTreshold(redPos head,node root);
 void UnosURed(redPos head,node root);
 void IspisTreshold(redPos head,int broj);
-void IspisRed(redPos p);
 
 int main(){
     pos head=(pos)malloc(sizeof(drzave));
@@ -52,7 +51,7 @@ int main(){
 
     UcitajIzDatoteke("drzave.txt",head);
     Ispis(head->next);
-    IspisiPoTresholdu(head,"Slovenija",46000);
+    IspisiPoTresholdu(head,"Madagaskar",20);
     return 0;
 }
 
@@ -132,42 +131,20 @@ int OtvaranjeDatotekeSGradovima(pos novi,char *ime_datoteke){
         while(strlen(buffer+offset)>0){
             if(sscanf(buffer+offset,"%s %s %n",grad,stan,&numBytes)==2){
                     offset+=numBytes;
-                    int i;
-
-                    char temp[MAX_LEN],ime[MAX_LEN];
-
-                    for(i=0;grad[i]!='_' && grad[i]!='\0';i++);
-                    strcpy(ime,grad+i+1);
-
-                    if(!strlen(ime)||!Provjera(grad)||i<5){
-                        printf("\nNetočan format\n");
-                        return -1;
+                    int br_stanovnika;
+                    char ime[MAX_LEN],temp[MAX_LEN];
+                    if(sscanf(grad,"Naziv_%s",ime)==1 && sscanf(stan,"%d_%s",&br_stanovnika,temp)==2){
+                        if(strlen(temp)!=10)break;
+                        novi->root=SortiraniUnosGradova(br_stanovnika,ime,novi->root);
                     }
-                    memset(temp,0,sizeof(ime));
-
-                    for(i=0;stan[i]!='_' && stan[i]!='\0';i++){
-                        temp[i]=stan[i];
+                    else{
+                        printf("\nBreak\n");
+                        break;
                     }
-                    temp[i]='\0';
-                    if(Provjera(stan)){
-                            if(strcmp(stan+i+1,"stanovnika")!=0){
-                                printf("\nNetočan format\n");
-                                return -1;
-                            }
-                        }
-                    if(!strlen(temp)||!Provjera(stan)){
-                        printf("\nNetočan format\n");
-                        return -1;
-                    }
-                    int br_stanovnika=SkeniranjeIzStringa(temp);
-                    novi->root=SortiraniUnosGradova(br_stanovnika,ime,novi->root);
-
-                    memset(temp,0,sizeof(temp));
-                    memset(grad,0,sizeof(grad));
-                    memset(stan,0,sizeof(stan));
 
             }
             else{
+                printf("\nBreak\n");
                 break;
             }
         }
@@ -231,9 +208,6 @@ void IspisiPoTresholdu(pos head,char *drzava,int broj){
         printf("\nTrazena drzava:%s\n",trazi->ime_drzave);
         printf("\nSvi gradovi za državu koji su prešli treshold\n");
         InOrderTreshold(head,trazi->root);
-        printf("\nIspis reda\n");
-        IspisRed(head->next);
-        printf("\n----\n");
         printf("\nIspis po tresholdu\n");
         IspisTreshold(head,broj);
     }
@@ -258,14 +232,6 @@ void InOrderTreshold(redPos head,node root){ //ispisivanje svih gradova koji ima
     InOrderTreshold(head,root->right);
 }
 
-// node VanIzReda(redPos head){
-//     redPos last=FindLast(head);
-//     node van=last->el;
-//     redPos preth=Prethodni(head,last);
-//     preth->next=NULL;
-//     free(last);
-//     return van;
-// }
 void UnosURed(redPos head,node root){
 
     redPos novi=(redPos)malloc(sizeof(red));
@@ -287,25 +253,7 @@ void UnosURed(redPos head,node root){
     novi->next=curr;
 }
 
-// redPos FindLast(redPos head){
-//         if (!head) return NULL; 
-//     redPos temp = head;
-//     while (temp->next) {
-//         temp = temp->next;
-//     }
-//     return temp;
-// }
 
-// redPos Prethodni(redPos head, redPos ref){
-//     redPos temp = head;
-//     while (temp->next && temp->next != ref) {
-//         temp = temp->next;
-//     }
-//     if (!temp->next) {
-//         return NULL;  // If we reached the end of the list without finding 'ref'
-//     }
-//     return temp;
-// }
 void IspisTreshold(redPos head,int broj){
     redPos temp=head->next;
     while(temp){
