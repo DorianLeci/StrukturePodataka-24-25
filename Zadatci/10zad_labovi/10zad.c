@@ -40,7 +40,7 @@ node SortiraniUnosGradova(int br_stanovnika,char *ime_grada,node root);
 void IspisGradovaPreorder(node root);
 void IspisiPoTresholdu(pos head,char *drzava,int broj);
 pos TraziPoListi(pos head,char *drzava);
-void InOrderTreshold(redPos head,node root);
+void InOrderTreshold(redPos head,node root,int br);
 void UnosURed(redPos head,node root);
 void IspisTreshold(redPos head,int broj);
 
@@ -51,7 +51,7 @@ int main(){
 
     UcitajIzDatoteke("drzave.txt",head);
     Ispis(head->next);
-    IspisiPoTresholdu(head,"Madagaskar",20);
+    IspisiPoTresholdu(head,"Hrvatska",120000);
     return 0;
 }
 
@@ -130,6 +130,7 @@ int OtvaranjeDatotekeSGradovima(pos novi,char *ime_datoteke){
         buffer[len-1]='\0';
         while(strlen(buffer+offset)>0){
             if(sscanf(buffer+offset,"%s %s %n",grad,stan,&numBytes)==2){
+                printf("Grad: %s,Stan:%s\n",grad,stan);
                     offset+=numBytes;
                     int br_stanovnika;
                     char ime[MAX_LEN],temp[MAX_LEN];
@@ -138,13 +139,11 @@ int OtvaranjeDatotekeSGradovima(pos novi,char *ime_datoteke){
                         novi->root=SortiraniUnosGradova(br_stanovnika,ime,novi->root);
                     }
                     else{
-                        printf("\nBreak\n");
                         break;
                     }
 
             }
             else{
-                printf("\nBreak\n");
                 break;
             }
         }
@@ -207,7 +206,7 @@ void IspisiPoTresholdu(pos head,char *drzava,int broj){
         head->next=NULL;
         printf("\nTrazena drzava:%s\n",trazi->ime_drzave);
         printf("\nSvi gradovi za državu koji su prešli treshold\n");
-        InOrderTreshold(head,trazi->root);
+        InOrderTreshold(head,trazi->root,broj);
         printf("\nIspis po tresholdu\n");
         IspisTreshold(head,broj);
     }
@@ -224,12 +223,14 @@ pos TraziPoListi(pos head,char *drzava){
     return NULL;
 }
 
-void InOrderTreshold(redPos head,node root){ //ispisivanje svih gradova koji imaju veći broj stanovnika
+void InOrderTreshold(redPos head,node root,int br){ //ispisivanje svih gradova koji imaju veći broj stanovnika
     if(!root)return;
+    if(root->stan>br){
+        UnosURed(head,root);
+    }
 
-    UnosURed(head,root);
-    InOrderTreshold(head,root->left);
-    InOrderTreshold(head,root->right);
+    InOrderTreshold(head,root->left,br);
+    InOrderTreshold(head,root->right,br);
 }
 
 void UnosURed(redPos head,node root){
