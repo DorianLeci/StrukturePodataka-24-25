@@ -81,26 +81,21 @@ int main() {
 
 
 cvor insert(int br, cvor root) {
-    // Ako je stablo prazno, alociraj novi čvor
     if (root == NULL) {
         cvor novi = malloc(sizeof(stablo)); 
-        if (!novi) return NULL; // Provjera alokacije
+        if (!novi) return NULL; 
         novi->br = br;
         novi->left = NULL;
         novi->right = NULL;
         return novi;
     }
-
-    // Ako broj treba da ide levo
     if (br >=root->br) {
         root->left = insert(br, root->left);
     } 
-    // Ako broj treba da ide desno
     else if (br < root->br) {
         root->right = insert(br, root->right);
     }
     
-    // Vraćamo korijen (ako je modifikovan ili nije)
     return root;
 }
 
